@@ -10,7 +10,7 @@ public class EnemyIntelligence : MonoBehaviour {
     public float movementSpeed = 1f;
     public int attack = 5;
     public float reach = 5f;
-    //public bool rr;
+    public bool rr;
     //public bool rrr;
     private bool dead = false;
 
@@ -131,8 +131,4 @@ public class EnemyIntelligence : MonoBehaviour {
 
     }
 
-    void AggroInDistance(float distance)
-    {
-
-    }
 }
