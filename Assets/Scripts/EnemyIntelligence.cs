@@ -125,10 +125,11 @@ public class EnemyIntelligence : MonoBehaviour {
 
     private void OnTriggerExit(Collider other)
     {
-
+        if (other.tag == "Player")
+        {
             Debug.Log(other.name + " has left aggro range.");
             target = null;
-
+        }
     }
 
 }
