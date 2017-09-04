@@ -10,10 +10,14 @@ public class GenerateTerrain : MonoBehaviour {
     public int seed = 41145;
 
     public Material matTest;
+    public Gradient gradient;
 
     void Start () {
 
         GameObject c = new GameObject(name = "TerrainContainer");
+
+        float lowest = 1f;
+        float highest = 1f;
         
         for (int i = 0; i < width; i++)
         {
@@ -32,13 +36,27 @@ public class GenerateTerrain : MonoBehaviour {
                 points[2] = new Vector3(i, heights[2], t + 1) * scale;
                 points[3] = new Vector3(i + 1, heights[3], t + 1) * scale; 
 
-                GameObject g = new GameObject(name = i.ToString() + " " + t.ToString());
+                GameObject g = new GameObject(i.ToString() + " " + t.ToString());
+                g.name = ((heights[0] + heights[1] + heights[2] + heights[3]) / 4).ToString();
+
+                float height = (heights[0] + heights[1] + heights[2] + heights[3]) / 4;
+
+                if (height < lowest)
+                {
+                    lowest = height;
+                }
+
+                if(height > highest)
+                {
+                    highest = height;
+                }
 
                 g.transform.parent = c.transform;
                 MeshFilter mf = g.AddComponent<MeshFilter>();
                 MeshRenderer mr = g.AddComponent<MeshRenderer>() as MeshRenderer;
                 mr.material = matTest;
-
+                mr.material.color = gradient.Evaluate(Mathf.InverseLerp(lowest, highest, height));
+                print(Mathf.InverseLerp(lowest, highest, height));
                 Rigidbody r = g.AddComponent<Rigidbody>() as Rigidbody;
                 r.constraints = RigidbodyConstraints.FreezeAll;
                 r.isKinematic = true;
