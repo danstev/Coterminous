@@ -66,8 +66,8 @@ public class Statistics : MonoBehaviour {
     private void EnemyDeath()
     {
         GetComponent<EnemyIntelligence>().SetDead();
-        CapsuleCollider col = GetComponent<CapsuleCollider>();
-        col.enabled = false;
+        //CapsuleCollider col = GetComponent<CapsuleCollider>();
+        //col.enabled = false;
         StartCoroutine(Fade(GetComponent<Renderer>()));
         Destroy(gameObject, 2f);
     }
