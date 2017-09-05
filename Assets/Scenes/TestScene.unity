@@ -456,10 +456,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ee99f072fa03bc42831e23b2851b2bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  width: 50
-  height: 50
+  width: 100
+  height: 100
   scale: 5
-  seed: 41145
+  seed: 1
   matTest: {fileID: 2100000, guid: 6005ed80f1949b44d8468cc60f034494, type: 2}
   gradient:
     serializedVersion: 2
@@ -655,15 +655,15 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4101150121055828, guid: 50d67c8492c835a4995ae8a6544e30ad, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 9.7
+      value: -27.04
       objectReference: {fileID: 0}
     - target: {fileID: 4101150121055828, guid: 50d67c8492c835a4995ae8a6544e30ad, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 4.58
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4101150121055828, guid: 50d67c8492c835a4995ae8a6544e30ad, type: 2}
       propertyPath: m_LocalPosition.z
-      value: 11.1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4101150121055828, guid: 50d67c8492c835a4995ae8a6544e30ad, type: 2}
       propertyPath: m_LocalRotation.x
@@ -684,10 +684,6 @@ Prefab:
     - target: {fileID: 4101150121055828, guid: 50d67c8492c835a4995ae8a6544e30ad, type: 2}
       propertyPath: m_RootOrder
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1939880255813462, guid: 50d67c8492c835a4995ae8a6544e30ad, type: 2}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 50d67c8492c835a4995ae8a6544e30ad, type: 2}
