@@ -13,6 +13,7 @@ public class GenerateTerrain : MonoBehaviour {
     int genAmount = 5;
 
     public float scale = 20f;
+    public float XYscale = 1f;
     public int seed = 41145;
 
     public Material matTest;
@@ -31,12 +32,15 @@ public class GenerateTerrain : MonoBehaviour {
             }
         }
 
+        //UnloadUnneeded(currentX, currentY);
+
 
     }
 
     void GenTerrainOnSpot(int x, int y)
     {
-        GameObject c = new GameObject(name = x + " "+ y);
+        GameObject c = new GameObject(name = x + " " + y);
+        c.tag = "Terrain";
 
         for (int i = 0; i < 10; i++)
         {
@@ -49,10 +53,10 @@ public class GenerateTerrain : MonoBehaviour {
                 heights[3] = CalcHeight(i + 1 + seed + x, t + 1 + seed + y) * scale;
 
                 Vector3[] points = new Vector3[4];
-                points[0] = new Vector3(i + x, heights[0], t + y) * scale;
-                points[1] = new Vector3(i + 1 + x, heights[1], t + y) * scale;
-                points[2] = new Vector3(i + x, heights[2], t + 1 + y) * scale;
-                points[3] = new Vector3(i + 1 + x, heights[3], t + 1 + y) * scale;
+                points[0] = new Vector3(i + x, heights[0], t + y) * XYscale;
+                points[1] = new Vector3(i + 1 + x, heights[1], t + y) * XYscale;
+                points[2] = new Vector3(i + x, heights[2], t + 1 + y) * XYscale;
+                points[3] = new Vector3(i + 1 + x, heights[3], t + 1 + y) * XYscale;
 
                 GameObject g = new GameObject(x + i.ToString() + " " + y + t.ToString());
 
@@ -185,6 +189,42 @@ public class GenerateTerrain : MonoBehaviour {
 
 
     }
+
+    void UnloadUnneeded(int x, int y)
+    {
+        GameObject[] terr = GameObject.FindGameObjectsWithTag("Terrain");
+        foreach(GameObject t in terr)
+        {
+            string str = t.name;
+            string[] coords = str.Split(' ');
+            int xCoord = int.Parse(coords[0]);
+            int yCoord = int.Parse(coords[1]);
+
+            if(xCoord < x || xCoord > x + (genAmount * 10))
+            {
+                t.SetActive(false);
+            }
+
+            if (yCoord < y || yCoord > y + (genAmount * 10))
+            {
+                t.SetActive(false);
+            }
+        }
+    }
+
+    bool CheckIfAlreadyGenerated()
+    {
+        bool check = false;
+
+        GameObject[] terr = GameObject.FindGameObjectsWithTag("Terrain");
+        foreach (GameObject t in terr)
+        {
+
+        }
+
+        return check;
+    }
+
 
 
 
