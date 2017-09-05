@@ -6,6 +6,12 @@ public class GenerateTerrain : MonoBehaviour {
 
     public int width = 10;
     public int height = 10;
+
+    float lowest = 1f;
+    float highest = 1f;
+
+    int genAmount = 5;
+
     public float scale = 20f;
     public int seed = 41145;
 
@@ -14,30 +20,41 @@ public class GenerateTerrain : MonoBehaviour {
 
     void Start () {
 
-        GameObject c = new GameObject(name = "TerrainContainer");
+        int currentX = (int)transform.position.x - ((genAmount / 2) * 10);
+        int currentY = (int)transform.position.y - ((genAmount / 2) * 10);
 
-        float lowest = 1f;
-        float highest = 1f;
-        
-        for (int i = 0; i < width; i++)
+        for(int i = 0; i < genAmount; i++)
         {
-            for(int t = 0; t < height; t ++)
+            for(int y = 0; y < genAmount; y++)
+            {
+                GenTerrainOnSpot(currentX + (i * 10), currentY + (y * 10));
+            }
+        }
+
+
+    }
+
+    void GenTerrainOnSpot(int x, int y)
+    {
+        GameObject c = new GameObject(name = x + " "+ y);
+
+        for (int i = 0; i < 10; i++)
+        {
+            for (int t = 0; t < 10; t++)
             {
                 float[] heights = new float[4];
-
-                heights[0] = CalcHeight(i, t) * scale;
-                heights[1] = CalcHeight(i + 1, t) * scale;
-                heights[2] = CalcHeight(i , t + 1) * scale;
-                heights[3] = CalcHeight(i + 1, t + 1) * scale;
+                heights[0] = CalcHeight(i + seed + x, t + seed + y) * scale;
+                heights[1] = CalcHeight(i + seed + 1 + x, t + seed + y) * scale;
+                heights[2] = CalcHeight(i + seed + x, t + 1 + seed + y) * scale;
+                heights[3] = CalcHeight(i + 1 + seed + x, t + 1 + seed + y) * scale;
 
                 Vector3[] points = new Vector3[4];
-                points[0] = new Vector3(i, heights[0], t) * scale;
-                points[1] = new Vector3(i + 1, heights[1], t) * scale;
-                points[2] = new Vector3(i, heights[2], t + 1) * scale;
-                points[3] = new Vector3(i + 1, heights[3], t + 1) * scale; 
+                points[0] = new Vector3(i + x, heights[0], t + y) * scale;
+                points[1] = new Vector3(i + 1 + x, heights[1], t + y) * scale;
+                points[2] = new Vector3(i + x, heights[2], t + 1 + y) * scale;
+                points[3] = new Vector3(i + 1 + x, heights[3], t + 1 + y) * scale;
 
-                GameObject g = new GameObject(i.ToString() + " " + t.ToString());
-                g.name = ((heights[0] + heights[1] + heights[2] + heights[3]) / 4).ToString();
+                GameObject g = new GameObject(x + i.ToString() + " " + y + t.ToString());
 
                 float height = (heights[0] + heights[1] + heights[2] + heights[3]) / 4;
 
@@ -46,7 +63,60 @@ public class GenerateTerrain : MonoBehaviour {
                     lowest = height;
                 }
 
-                if(height > highest)
+                if (height > highest)
+                {
+                    highest = height;
+                }
+
+                g.transform.parent = c.transform;
+                MeshFilter mf = g.AddComponent<MeshFilter>();
+                MeshRenderer mr = g.AddComponent<MeshRenderer>() as MeshRenderer;
+                mr.material = matTest;
+                mr.material.color = gradient.Evaluate(Mathf.InverseLerp(lowest, highest, height));
+                print(Mathf.InverseLerp(lowest, highest, height));
+                Rigidbody r = g.AddComponent<Rigidbody>() as Rigidbody;
+                r.constraints = RigidbodyConstraints.FreezeAll;
+                r.isKinematic = true;
+
+                MeshCollider mc = g.AddComponent<MeshCollider>();
+                AddMesh(g, points);
+
+                mc.sharedMesh = mf.mesh;
+            }
+        }
+    }
+
+    IEnumerator GenTerrainOnSpotCo(int x, int y,float lowest, float highest)
+    {
+        GameObject c = new GameObject(name = x + " " + y);
+
+        for (int i = 0; i < 10; i++)
+        {
+            for (int t = 0; t < 10; t++)
+            {
+                float[] heights = new float[4];
+
+                heights[0] = CalcHeight(i + seed + x, t + seed + y) * scale;
+                heights[1] = CalcHeight(i + seed + 1 + x, t + seed + y) * scale;
+                heights[2] = CalcHeight(i + seed + x, t + 1 + seed + y) * scale;
+                heights[3] = CalcHeight(i + 1 + seed + x, t + 1 + seed + y) * scale;
+
+                Vector3[] points = new Vector3[4];
+                points[0] = new Vector3(i + x, heights[0], t + y) * scale;
+                points[1] = new Vector3(i + 1 + x, heights[1], t + y) * scale;
+                points[2] = new Vector3(i + x, heights[2], t + 1 + y) * scale;
+                points[3] = new Vector3(i + 1 + x, heights[3], t + 1 + y) * scale;
+
+                GameObject g = new GameObject(x + i.ToString() + " " + y + t.ToString());
+
+                float height = (heights[0] + heights[1] + heights[2] + heights[3]) / 4;
+
+                if (height < lowest)
+                {
+                    lowest = height;
+                }
+
+                if (height > highest)
                 {
                     highest = height;
                 }
@@ -68,12 +138,13 @@ public class GenerateTerrain : MonoBehaviour {
             }
         }
 
+        yield return new WaitForEndOfFrame();
     }
 
     float CalcHeight(int x, int y)
     {
-        float xCoord = (float)x / width * scale;
-        float yCoord = (float)y / height * scale;
+        float xCoord = (float)x / height * scale;
+        float yCoord = (float)y / width * scale;
 
         return Mathf.PerlinNoise(xCoord, yCoord);
     }
@@ -114,6 +185,8 @@ public class GenerateTerrain : MonoBehaviour {
 
 
     }
+
+
 
 }
 
