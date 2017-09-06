@@ -41,6 +41,7 @@ public class GenerateTerrain : MonoBehaviour {
     {
         GameObject c = new GameObject(name = x + " " + y);
         c.tag = "Terrain";
+        
 
         for (int i = 0; i < 10; i++)
         {
@@ -91,6 +92,32 @@ public class GenerateTerrain : MonoBehaviour {
                 mc.sharedMesh = mf.mesh;
             }
         }
+
+        
+        
+        
+        MeshFilter[] meshFilters = c.GetComponentsInChildren<MeshFilter>();
+        CombineInstance[] combine = new CombineInstance[meshFilters.Length];
+        int u = 0;
+        
+        while (u < meshFilters.Length)
+        {
+            combine[u].mesh = meshFilters[u].sharedMesh;
+            combine[u].transform = meshFilters[u].transform.localToWorldMatrix;
+            //meshFilters[u].gameObject.SetActive(false);
+            u++;
+        }
+
+        
+        c.AddComponent<MeshFilter>();
+        MeshFilter cmfc = c.GetComponent<MeshFilter>();
+        cmfc.mesh = new Mesh();
+        cmfc.mesh.CombineMeshes(combine);
+        c.gameObject.SetActive(true);
+        MeshCollider cMeshCol = c.AddComponent<MeshCollider>();
+        cMeshCol.sharedMesh = cmfc.mesh;
+        c.AddComponent<GenerateOnCollide>();
+        
     }
 
     IEnumerator GenTerrainOnSpotCo(int x, int y,float lowest, float highest)
@@ -202,7 +229,6 @@ public class GenerateTerrain : MonoBehaviour {
             string[] coords = str.Split(' ');
             int xCoord = int.Parse(coords[0]);
             int yCoord = int.Parse(coords[1]);
-            print(t.name);
 
             if(xCoord < x || xCoord > x + (genAmount * 10))
             {
@@ -218,14 +244,17 @@ public class GenerateTerrain : MonoBehaviour {
         }
     }
 
-    bool CheckIfAlreadyGenerated()
+    bool CheckIfAlreadyGenerated(int x, int y)
     {
         bool check = false;
-
+        string nameToCheck = x + " " + y;
         GameObject[] terr = GameObject.FindGameObjectsWithTag("Terrain");
         foreach (GameObject t in terr)
         {
-
+            if(t.name == nameToCheck)
+            {
+                return true;
+            }
         }
 
         return check;
