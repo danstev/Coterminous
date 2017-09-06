@@ -10,7 +10,7 @@ public class GenerateTerrain : MonoBehaviour {
     float lowest = 1f;
     float highest = 1f;
 
-    int genAmount = 5;
+    public int genAmount = 5;
 
     public float scale = 20f;
     public float XYscale = 1f;
@@ -32,7 +32,7 @@ public class GenerateTerrain : MonoBehaviour {
             }
         }
 
-        //UnloadUnneeded(currentX, currentY);
+        UnloadUnneeded(currentX, currentY);
 
 
     }
@@ -59,6 +59,7 @@ public class GenerateTerrain : MonoBehaviour {
                 points[3] = new Vector3(i + 1 + x, heights[3], t + 1 + y) * XYscale;
 
                 GameObject g = new GameObject(x + i.ToString() + " " + y + t.ToString());
+                g.isStatic = true;
 
                 float height = (heights[0] + heights[1] + heights[2] + heights[3]) / 4;
 
@@ -76,8 +77,10 @@ public class GenerateTerrain : MonoBehaviour {
                 MeshFilter mf = g.AddComponent<MeshFilter>();
                 MeshRenderer mr = g.AddComponent<MeshRenderer>() as MeshRenderer;
                 mr.material = matTest;
-                mr.material.color = gradient.Evaluate(Mathf.InverseLerp(lowest, highest, height));
-                print(Mathf.InverseLerp(lowest, highest, height));
+                float co = Mathf.InverseLerp(lowest, highest, height);
+                float coo = Mathf.Round(co * 10f) / 10f;
+
+                mr.material.color = gradient.Evaluate(coo);
                 Rigidbody r = g.AddComponent<Rigidbody>() as Rigidbody;
                 r.constraints = RigidbodyConstraints.FreezeAll;
                 r.isKinematic = true;
@@ -199,15 +202,18 @@ public class GenerateTerrain : MonoBehaviour {
             string[] coords = str.Split(' ');
             int xCoord = int.Parse(coords[0]);
             int yCoord = int.Parse(coords[1]);
+            print(t.name);
 
             if(xCoord < x || xCoord > x + (genAmount * 10))
             {
                 t.SetActive(false);
+                print("Unloaded: " + x + " " + y);
             }
 
             if (yCoord < y || yCoord > y + (genAmount * 10))
             {
                 t.SetActive(false);
+                print("Unloaded: " + x + " " + y);
             }
         }
     }
