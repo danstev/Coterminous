@@ -61,6 +61,15 @@ public class Statistics : MonoBehaviour {
     {
         health -= incoming;
         Debug.Log("Damage: " + incoming + " has been taken by: " + gameObject.name + ".");
+
+        if(tag == "Enemy")
+        {
+            EnemyIntelligence ei = GetComponent<EnemyIntelligence>();
+            if(ei.target == null)
+            {
+                //set target to the person attacking
+            }
+        }
     }
 
     private void EnemyDeath()
