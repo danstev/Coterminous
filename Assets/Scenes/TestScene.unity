@@ -390,6 +390,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   width: 100
   height: 100
+  chunksize: 1
   genAmount: 10
   scale: 5
   XYscale: 2
@@ -643,7 +644,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &607168081
 RectTransform:
   m_ObjectHideFlags: 0
