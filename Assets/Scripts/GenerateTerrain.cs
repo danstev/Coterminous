@@ -6,6 +6,7 @@ public class GenerateTerrain : MonoBehaviour {
 
     public int width = 10;
     public int height = 10;
+    public int chunksize = 10;
 
     float lowest = 1f;
     float highest = 1f;
@@ -23,14 +24,14 @@ public class GenerateTerrain : MonoBehaviour {
 
     void Start () {
 
-        int currentX = (int)transform.position.x - ((genAmount / 2) * 10);
-        int currentY = (int)transform.position.y - ((genAmount / 2) * 10);
+        int currentX = (int)transform.position.x - ((genAmount / 2) * chunksize);
+        int currentY = (int)transform.position.y - ((genAmount / 2) * chunksize);
 
         for(int i = 0; i < genAmount; i++)
         {
             for(int y = 0; y < genAmount; y++)
             {
-                GenTerrainOnSpot(currentX + (i * 10), currentY + (y * 10));
+                GenTerrainOnSpot(currentX + (i * chunksize), currentY + (y * chunksize));
             }
         }
 
@@ -41,16 +42,16 @@ public class GenerateTerrain : MonoBehaviour {
 
     public void GenerateInArea(int currentX, int currentY)
     {
-        int xCoord = (currentX - ((genAmount / 2) * 10));
-        int yCoord = (currentY - ((genAmount / 2) * 10));
+        int xCoord = (currentX - ((genAmount / 2) * chunksize));
+        int yCoord = (currentY - ((genAmount / 2) * chunksize));
 
         for (int i = 0; i < genAmount; i++)
         {
             for (int y = 0; y < genAmount; y++)
             {
-                if (!CheckIfAlreadyGenerated(xCoord + (i * 10) , yCoord + (y * 10)))
+                if (!CheckIfAlreadyGenerated(xCoord + (i * chunksize) , yCoord + (y * chunksize)))
                 {
-                    GenTerrainOnSpot(xCoord + (i * 10), yCoord + (y * 10));
+                    GenTerrainOnSpot(xCoord + (i * chunksize), yCoord + (y * chunksize));
                 }
                 else
                 {
@@ -74,9 +75,9 @@ public class GenerateTerrain : MonoBehaviour {
         GameObject c = new GameObject(name = x + " " + y);
         c.tag = "Terrain";
         
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < chunksize; i++)
         {
-            for (int t = 0; t < 10; t++)
+            for (int t = 0; t < chunksize; t++)
             {
                 float[] heights = new float[4];
                 heights[0] = CalcHeight(i + seed + x, t + seed + y) * scale;
