@@ -14,8 +14,8 @@ OcclusionCullingSettings:
 RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 8
-  m_Fog: 0
-  m_FogColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  m_Fog: 1
+  m_FogColor: {r: 0.21034482, g: 0.21034482, b: 0.21034482, a: 1}
   m_FogMode: 3
   m_FogDensity: 0.01
   m_LinearFogStart: 0
@@ -307,7 +307,7 @@ Light:
   m_Enabled: 1
   serializedVersion: 8
   m_Type: 1
-  m_Color: {r: 0.4558823, g: 0.61591697, b: 1, a: 0.528}
+  m_Color: {r: 0.5202124, g: 0.2955478, b: 0.6310345, a: 0.541}
   m_Intensity: 0.01
   m_Range: 10
   m_SpotAngle: 30
@@ -1759,6 +1759,7 @@ GameObject:
   - component: {fileID: 1951647620}
   - component: {fileID: 1951647619}
   - component: {fileID: 1951647618}
+  - component: {fileID: 1951647623}
   m_Layer: 0
   m_Name: Camera
   m_TagString: MainCamera
@@ -1795,8 +1796,8 @@ Camera:
   m_GameObject: {fileID: 1951647617}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0.328, g: 0.384, b: 0.428, a: 0.484}
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
@@ -1804,7 +1805,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.1
-  far clip plane: 50
+  far clip plane: 100
   field of view: 90
   orthographic: 0
   orthographic size: 5
@@ -1812,7 +1813,7 @@ Camera:
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_RenderingPath: -1
+  m_RenderingPath: 3
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
   m_TargetEye: 3
@@ -1836,6 +1837,18 @@ Transform:
   m_Father: {fileID: 1610706400}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1951647623
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1951647617}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff26db721962cdf4a8edcdfa9a767d2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  profile: {fileID: 11400000, guid: d5fd61dd6ae2ac24da2498af1fe00b16, type: 2}
 --- !u!1 &2106239670
 GameObject:
   m_ObjectHideFlags: 0
